@@ -1,65 +1,93 @@
-markdown
 # 🚀 DocuBrain AI: Enterprise-Grade RAG Chatbot
+
+![Python](https://img.shields.io/badge/Python-3.10+-blue) ![LangChain](https://img.shields.io/badge/LangChain-Enabled-green) ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-teal) ![License](https://img.shields.io/badge/License-MIT-yellow)
+
 ### Hardware-Optimized | Local-First Privacy | Multi-Format Support
 
-DocuBrain AI is a high-performance **Retrieval-Augmented Generation (RAG)** system designed to chat with enterprise documents (PDF, CSV, Docx). Unlike standard RAG implementations, this system is **Hardware-Optimized to run smoothly on just 4GB of RAM** without compromising accuracy.
+DocuBrain AI is a high-performance **Retrieval-Augmented Generation (RAG)** system designed to chat with enterprise documents (PDF, CSV, Docx). Unlike standard RAG implementations, this system is **hardware-optimized to run smoothly on just 4GB of RAM** without compromising accuracy.
 
 ---
 
 ## ✨ Key Features
+
+- **SHA256 Document Fingerprinting:** Automatic deduplication — if the same document is uploaded twice, the system detects it instantly and skips redundant indexing, saving compute and storage.
 - **4GB RAM Optimization:** Uses lightweight embeddings and in-memory indexing for high-speed performance on standard hardware.
-- **Zero Hallucination:** Strict system prompting ensures the AI only answers based on provided context.
+- **Zero Hallucination:** Strict system prompting ensures the AI only answers based on provided context — never fabricates information.
 - **Source Tracking:** Real-time citations including **File Name** and **Page Number** for every response.
-- **Local-First Privacy:** Document indexing (FAISS) stays on your local infrastructure; no data is used for external model training.
+- **Local-First Privacy:** Document indexing (FAISS) stays on your local infrastructure; no data is sent for external model training.
 - **Multi-Format Ingestion:** Seamlessly parses unstructured PDFs, Word docs, and structured CSV files.
 
 ---
 
-## 🛠️ The Tech Stack & Why I Chose It
-- **FAISS (Vector Store):** Chosen over ChromaDB for its tiny memory footprint and superior retrieval speed in low-resource environments.
-- **Sentence-Transformers (all-MiniLM-L6-v2):** A strategic 80MB model that delivers high semantic accuracy with minimal CPU/RAM usage.
-- **LangChain:** Used for modular orchestration of the RAG pipeline and document splitting.
-- **FastAPI:** Provides a scalable, asynchronous backend for real-time query handling.
-- **Streamlit:** A lightweight, professional UI for document interaction and feedback.
-- **Llama-3.3 (via OpenRouter):** Integrated for enterprise-grade reasoning and professional response generation.
+## 🛠️ Tech Stack & Design Decisions
+
+| Component | Tool | Why |
+|---|---|---|
+| Vector Store | FAISS | Tiny memory footprint, superior retrieval speed in low-resource environments |
+| Embeddings | all-MiniLM-L6-v2 | 80MB model — high semantic accuracy with minimal CPU/RAM usage |
+| Orchestration | LangChain | Modular RAG pipeline and document splitting |
+| Backend | FastAPI | Scalable, asynchronous real-time query handling |
+| UI | Streamlit | Lightweight, professional document interaction interface |
+| LLM | Llama-3.3 via OpenRouter | Enterprise-grade reasoning and grounded response generation |
 
 ---
 
 ## 🏗️ Architecture Flow
-1. **Ingestion:** Documents are loaded using `PyMuPDF` and `Docx2txt`.
-2. **Chunking:** Text is split into 800-character segments with overlap to maintain context.
-3. **Embedding:** `MiniLM-L6` converts text into semantic vectors locally.
-4. **Indexing:** `FAISS` stores and organizes vectors for lightning-fast retrieval.
-5. **Generation:** Top relevant chunks are sent to the LLM to generate a cited, grounded answer.
+```
+Document Upload
+      ↓
+PyMuPDF / Docx2txt (Ingestion)
+      ↓
+SHA256 Fingerprint Check (Deduplication)
+      ↓
+800-char Chunking with Overlap
+      ↓
+MiniLM-L6 Embedding (Local)
+      ↓
+FAISS Vector Index
+      ↓
+Top-K Retrieval → LLM → Cited Answer
+```
 
 ---
 
-## 🚀 How to Run
+## 🚀 Quick Start
 
-1. **Clone the Repo:**
-   ```bash
-   git clone https://github.com/YasraNafees/DocuBrain-AI.git
-   cd DocuBrain-AI
-Use code with caution.
+**1. Clone the repo:**
+```bash
+git clone https://github.com/YasraNafees/DocuBrain-AI.git
+cd DocuBrain-AI
+```
 
-Install Dependencies:
-bash
+**2. Install dependencies:**
+```bash
 pip install -r requirements.txt
-Use code with caution.
+```
 
-Set Environment Variables:
-Create a .env file and add your OPENROUTER_API_KEY.
-Run the Application:
-bash
-# Start the Backend
+**3. Set environment variables:**
+
+Create a `.env` file:
+```
+OPENROUTER_API_KEY=your_key_here
+```
+
+**4. Run the application:**
+```bash
+# Start the backend
 uvicorn api:app --reload
 
-# Start the UI (In a new terminal)
+# Start the UI (new terminal)
 streamlit run streamlit_app.py
-Use code with caution.
+```
 
-💼 Remote Opportunities
-I specialize in building cost-effective, private, and optimized AI solutions for businesses. If you are looking for an AI Developer who understands hardware constraints and data privacy, let's connect!
-Contact:https://www.linkedin.com/in/yasranafees/
+---
 
+## 📸 Demo
 
+> *output folder*
+
+---
+
+## 🤝 Contributing
+
+Pull requests are welcome. For major changes, please open an issue first.
